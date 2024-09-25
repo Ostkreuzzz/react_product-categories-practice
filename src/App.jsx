@@ -49,7 +49,7 @@ const handleFilter = (data, { selectedUser, selectedCategory, query }) => {
 };
 
 export const App = () => {
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState([]);
   const [selectedUser, setSelectedUser] = useState('');
   const [query, setQuery] = useState('');
 
@@ -67,11 +67,13 @@ export const App = () => {
 
   const handleCategorySelection = category => {
     setSelectedCategory(prevSelected => {
-      if (prevSelected === category) {
-        return '';
+      if (prevSelected.some(selectedCat => selectedCat.id === category.id)) {
+        return prevSelected.filter(
+          selectedCat => selectedCat.id !== category.id,
+        );
       }
 
-      return category;
+      return [...prevSelected, category];
     });
   };
 
@@ -142,9 +144,9 @@ export const App = () => {
               <a
                 href="#/"
                 data-cy="AllCategories"
-                onClick={() => handleCategorySelection('')}
+                onClick={() => setSelectedCategory([])}
                 className={cn('button mr-6', {
-                  'is-success': !selectedCategory,
+                  'is-success': !selectedCategory.length,
                 })}
               >
                 All
