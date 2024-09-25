@@ -7,13 +7,6 @@ import usersFromServer from './api/users';
 import categoriesFromServer from './api/categories';
 import productsFromServer from './api/products';
 
-// const products = productsFromServer.map((product) => {
-//   const category = null; // find by product.categoryId
-//   const user = null; // find by category.ownerId
-
-//   return null;
-// });
-
 const handleFilter = (data, { selectedUser, selectedCategory, query }) => {
   let filteredData = [...data];
 
@@ -33,8 +26,11 @@ const handleFilter = (data, { selectedUser, selectedCategory, query }) => {
   if (query) {
     const normalizedQuery = query.toLowerCase().trim();
 
-    filteredData = filteredData.filter(product =>
-      product.category.title?.toLowerCase().includes(normalizedQuery),);
+    filteredData = filteredData.filter(
+      product =>
+        product.category.title?.toLowerCase().includes(normalizedQuery),
+      // eslint-disable-next-line function-paren-newline
+    );
   }
 
   if (selectedCategory) {
@@ -53,7 +49,7 @@ const handleFilter = (data, { selectedUser, selectedCategory, query }) => {
 };
 
 export const App = () => {
-  const [selectedCategory, setSelectedCategory] = useState();
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedUser, setSelectedUser] = useState('');
   const [query, setQuery] = useState('');
 
